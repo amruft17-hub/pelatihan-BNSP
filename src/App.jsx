@@ -528,7 +528,7 @@ function App() {
               <div>
                 <h2>
                   <span className="news-heading-icon">📰</span>
-                  Berita Terkini Kompas
+                  Berita CNN
                 </h2>
 
                 <p className="news-description">
