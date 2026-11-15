@@ -42,6 +42,13 @@ export async function ensureSchema() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   `);
 
+  const [memberColumns] = await pool.query("SHOW COLUMNS FROM members LIKE 'bio'");
+  if (memberColumns.length === 0) {
+    await pool.query(
+      "ALTER TABLE members ADD COLUMN bio VARCHAR(500) NOT NULL DEFAULT '' AFTER avatar"
+    );
+  }
+
   // Relasi satu kategori ke banyak barang (foreign key).
   await pool.query(`
     CREATE TABLE IF NOT EXISTS kategori (

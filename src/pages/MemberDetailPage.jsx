@@ -4,8 +4,8 @@ import { useParams, Link } from 'react-router-dom';
 export default function MemberDetailPage({ members }) {
   const { id } = useParams();
 
-  // Mencari anggota berdasarkan ID
-  const member = members.find((m) => m.id === Number(id));
+  // Mencari anggota berdasarkan ID (mendukung format angka maupun UUID)
+  const member = members.find((m) => String(m.id) === String(id));
 
   // Penanganan aman jika data ID tidak ditemukan
   if (!member) {

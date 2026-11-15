@@ -54,6 +54,32 @@ test('GET /api/kategori mengembalikan daftar kategori', async () => {
   assert.ok(body.every((item) => item.id > 0 && item.nama));
 });
 
+test('kategori dapat ditambah dan diedit; kategori terpakai tidak dapat dihapus', async () => {
+  const created = await request('/api/kategori', {
+    method: 'POST',
+    body: JSON.stringify({ nama: 'Perlengkapan Uji' }),
+  });
+  assert.equal(created.status, 201);
+  assert.equal(created.body.nama, 'Perlengkapan Uji');
+
+  const updated = await request(`/api/kategori/${created.body.id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ nama: 'Perlengkapan Praktik' }),
+  });
+  assert.equal(updated.status, 200);
+  assert.equal(updated.body.nama, 'Perlengkapan Praktik');
+
+  const deleted = await request(`/api/kategori/${created.body.id}`, {
+    method: 'DELETE',
+  });
+  assert.equal(deleted.status, 204);
+
+  const inUse = await request(`/api/kategori/${kategori.elektronik}`, {
+    method: 'DELETE',
+  });
+  assert.equal(inUse.status, 409);
+});
+
 test('GET /api/barang mengembalikan array kosong saat belum ada data', async () => {
   const { status, body } = await request('/api/barang');
 

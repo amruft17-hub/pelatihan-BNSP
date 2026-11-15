@@ -13,6 +13,8 @@ export const createMemberSchema = z.object({
     .trim()
     .min(1, 'Wajib memilih salah satu peran tim')
     .max(80, 'Posisi maksimal 80 karakter'),
+  bio: z.string().trim().max(500, 'Bio maksimal 500 karakter').optional(),
+  avatar: z.string().trim().url('URL foto profil tidak valid').max(255, 'URL foto maksimal 255 karakter').optional(),
 });
 
 // PUT menerima sebagian field (form edit mengirim 3 field; tombol status/bintang 1 field).
@@ -34,7 +36,19 @@ export const updateMemberSchema = z
       .number('Rating harus berupa angka')
       .int('Rating harus bilangan bulat')
       .min(0, 'Rating minimal 0'),
+    bio: z.string().trim().max(500, 'Bio maksimal 500 karakter'),
+    avatar: z.string().trim().url('URL foto profil tidak valid').max(255, 'URL foto maksimal 255 karakter'),
   })
+  .partial()
+  .refine((data) => Object.keys(data).length > 0, {
+    message: 'Tidak ada data yang diubah',
+  });
+
+export const createKategoriSchema = z.object({
+  nama: z.string().trim().min(1, 'Nama kategori wajib diisi').max(80, 'Nama kategori maksimal 80 karakter'),
+});
+
+export const updateKategoriSchema = createKategoriSchema
   .partial()
   .refine((data) => Object.keys(data).length > 0, {
     message: 'Tidak ada data yang diubah',

@@ -1,40 +1,43 @@
+function NewsCard({ title, description, image, category, date, link }) {
+  const fallback = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&q=80';
 
-export default function NewsCard({ news }) {
   return (
-    <article
-      style={{
-        padding: "20px",
-        border: "1px solid #ddd",
-        borderRadius: "12px",
-        backgroundColor: "#fff",
-        color: "#222",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-      }}
-    >
-      <span
-        style={{
-          display: "inline-block",
-          padding: "5px 10px",
-          borderRadius: "20px",
-          backgroundColor: "#e0ecff",
-          color: "#1d4ed8",
-          fontSize: "12px",
-        }}
-      >
-        {news.category}
-      </span>
+    <div className="news-card">
+      <div className="news-thumb-wrapper">
+        <img
+          src={image || fallback}
+          alt={title}
+          className="news-thumb"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = fallback;
+          }}
+        />
 
-      <h3 style={{ marginTop: "14px" }}>
-        {news.title}
-      </h3>
+        {category && (
+          <span className="news-category-badge">
+            {category}
+          </span>
+        )}
+      </div>
 
-      <p style={{ color: "#666", fontSize: "13px" }}>
-        {news.date}
-      </p>
+      <div className="news-body">
+        <h3 className="news-headline" title={title}>
+          {title}
+        </h3>
+        {description && <p className="news-description">{description}</p>}
 
-      <p style={{ lineHeight: 1.6 }}>
-        {news.description}
-      </p>
-    </article>
+        <div className="news-meta">
+          <span className="news-date">📅 {date || 'Hari ini'}</span>
+          {link && (
+            <a href={link} target="_blank" rel="noreferrer" className="news-link">
+              Baca →
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
+
+export default NewsCard;

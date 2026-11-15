@@ -71,6 +71,24 @@ test('POST /api/members membuat anggota dengan nilai default', async () => {
   createdId = body.id;
 });
 
+test('POST /api/members menyimpan bio dan avatar profil', async () => {
+  const { status, body } = await request('/api/members', {
+    method: 'POST',
+    body: JSON.stringify({
+      namaLengkap: 'Dewi Anggraini',
+      email: 'dewi.anggraini@perusahaan.com',
+      posisi: 'Designer',
+      bio: 'Membuat pengalaman pengguna.',
+      avatar: 'https://example.com/dewi.png',
+    }),
+  });
+
+  assert.equal(status, 201);
+  assert.equal(body.bio, 'Membuat pengalaman pengguna.');
+  assert.equal(body.avatar, 'https://example.com/dewi.png');
+  await request(`/api/members/${body.id}`, { method: 'DELETE' });
+});
+
 test('GET /api/members memuat anggota yang baru dibuat', async () => {
   const { status, body } = await request('/api/members');
   assert.equal(status, 200);

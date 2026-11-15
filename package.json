@@ -14,8 +14,12 @@
     "test:server": "npm --prefix server test"
   },
   "dependencies": {
+    "dotenv": "^18.0.10",
+    "lucide-react": "^1.72.0",
+    "mysql2": "^3.24.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.5",
     "zod": "^4.6.7"
   },
   "devDependencies": {
